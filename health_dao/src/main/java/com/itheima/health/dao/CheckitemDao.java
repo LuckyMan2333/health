@@ -1,6 +1,7 @@
 package com.itheima.health.dao;
 
 import com.github.pagehelper.Page;
+import com.itheima.health.exception.MyException;
 import com.itheima.health.pojo.CheckItem;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public interface CheckitemDao {
     int findCountByCheckitemId(Integer id);
 
     //根据id删除检查项
-    void deleteById(Integer id);
+    void deleteById(Integer id) throws MyException;
 
     //编辑表单,根据id去查询数据,并回显给页面
     CheckItem findById(Integer id);

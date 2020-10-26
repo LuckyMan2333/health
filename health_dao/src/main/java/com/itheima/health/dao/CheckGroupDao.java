@@ -28,4 +28,10 @@ public interface CheckGroupDao {
     void deleteCheckGroupAndCheckItem(Integer id);
 
     void addCheckGroupAndCheckItem(@Param("checkgroupId") Integer id, @Param("checkitemId") Integer checkitemId);
+
+    int findSetmealCountByCheckGroupId(Integer id);
+
+    void deleteCheckGroup(Integer id);
+
+    List<CheckGroup> findByCheckGroup();
 }

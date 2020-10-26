@@ -65,5 +65,19 @@
         values (#{checkgroupId},#{checkitemId})
     </insert>
 
+    <!--查询检查组和套餐的关系-->
+    <select id="findSetmealCountByCheckGroupId" parameterType="int" resultType="int">
+        select count(1) from t_setmeal_checkgroup where checkgroup_id=#{id}
+    </select>
+
+    <!--删除检查组-->
+    <delete id="deleteCheckGroup" parameterType="int">
+        delete  from t_checkgroup where id=#{id}
+    </delete>
+
+    <!--查询所有的检查组-->
+    <select id="findByCheckGroup" resultType="checkgroup">
+        select * from t_checkgroup
+    </select>
 
 </mapper>

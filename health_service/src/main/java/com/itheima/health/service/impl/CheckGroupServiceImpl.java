@@ -7,10 +7,12 @@ import com.github.pagehelper.StringUtil;
 import com.itheima.health.dao.CheckGroupDao;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
+import com.itheima.health.exception.MyException;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -110,6 +112,38 @@ public class CheckGroupServiceImpl implements CheckGroupService {
             }
         }
 
+
+    }
+
+    //删除检查组
+    @Override
+    @Transactional
+    public void deleteById(Integer id) throws MyException{
+        //先去查询,要删除的检查组是否被套餐使用,如果被使用则不能删除
+        int cnt = checkGroupDao.findSetmealCountByCheckGroupId(id);
+
+        if (cnt > 0) {
+            //被套餐使用就不能删除了
+            throw new MyException("此检查组已被套餐使用,不能被删除");
+
+        }
+        //没有被使用就删除检查组和检查项的关系
+        checkGroupDao.deleteCheckGroupAndCheckItem(id);
+        //再去删除检查组
+        checkGroupDao.deleteCheckGroup(id);
+
+    }
+
+    /**
+     *  查询所有的检查组
+     * @Param []
+     * @return java.util.List<com.itheima.health.pojo.CheckGroup>
+    **/
+
+    @Override
+    public List<CheckGroup> findByCheckGroup() {
+
+        return checkGroupDao.findByCheckGroup();
 
     }
 }

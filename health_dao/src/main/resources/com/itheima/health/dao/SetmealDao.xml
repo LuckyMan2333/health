@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性：名称空间， 写接口的全限定名-->
+<mapper namespace="com.itheima.health.dao.SetmealDao">
+    <!--添加套餐-->
+    <insert id="add" parameterType="setmeal" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img)
+        values(#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+
+    <!--添加套餐和检查组的关系-->
+    <insert id="addSetmealCheckGroup">
+    insert into t_setmeal_checkgroup (setmeal_id, checkgroup_id)
+        values (#{setmealId},#{checkgroupId})
+    </insert>
+
+    <!--分页查询套餐-->
+    <select id="findByCondition" parameterType="string" resultType="setmeal">
+        select * from t_setmeal
+        <if test="value != null and value.length > 0">
+        where code like #{queryString} or name like #{queryString} or helpCode like #{queryString}
+        </if>
+    </select>
+
+    <!--根据id查询套餐-->
+    <select id="findById" parameterType="int" resultType="setmeal">
+    select * From t_setmeal where id=#{id}
+</select>
+    
+    <!--根据套餐的id去查询关联的检查组-->
+    <select id="findCheckgroupIdsBySetmealId" parameterType="int" resultType="int">
+        select checkgroup_id from t_setmeal_checkgroup where setmeal_id=#{id}
+    </select>
+
+    <!--修改套餐-->
+    <update id="update" parameterType="setmeal">
+       update t_setmeal
+    set
+        name=#{name},
+        code=#{code},
+        helpCode=#{helpCode},
+        sex=#{sex},
+        age=#{age},
+        price=#{price},
+        remark=#{remark},
+        attention=#{attention},
+        img=#{img}
+    where id=#{id}
+    </update>
+
+    <!--删除套餐与检查组的旧关系-->
+    <delete id="deleteByCheckGroup" parameterType="int">
+        delete from t_setmeal_checkgroup where setmeal_id=#{id}
+    </delete>
+    
+    <!--添加套餐与检查组的新关系-->
+    <insert id="addSetmealAndCheckGroup" parameterType="int">
+
+        insert into t_setmeal_checkgroup values (#{setemalId},#{checkgroupId})
+
+    </insert>
+
+    <!--查询套餐是否被下了单-->
+    <select id="findOrderCountBySetmealId" parameterType="int" resultType="int">
+         select count(1) from t_order where setmeal_id=#{id}
+    </select>
+
+    <!--删除套餐-->
+    <delete id="delete" parameterType="int">
+        delete from t_setmeal where id=#{id}
+    </delete>
+
+
+
+
+
+</mapper>

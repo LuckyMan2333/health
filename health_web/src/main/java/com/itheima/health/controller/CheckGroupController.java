@@ -8,6 +8,7 @@ import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.CheckGroup;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckGroupService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +21,22 @@ public class CheckGroupController {
     @Reference
     private CheckGroupService checkGroupService;
 
+    /**
+     *  查询所有的检查组
+     * @Param []
+     * @return com.itheima.health.entity.Result
+    **/
+    @GetMapping("findByCheckGroup")
+    public Result findByCheckGroup() {
+        List<CheckGroup> list = checkGroupService.findByCheckGroup();
+
+        return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS, list);
+    }
+
+
     //添加检查组
     @PostMapping("add")
+    @Transactional
     public Result add(@RequestBody CheckGroup checkGroup, Integer[] checkitemIds) {
 
         //调用业务服务
@@ -72,6 +87,7 @@ public class CheckGroupController {
 
     //编辑修改数据
     @PostMapping("update")
+    @Transactional
     public Result update(Integer[] checkitemIds, @RequestBody CheckGroup checkGroup) {
         //调用业务去修改数据
         checkGroupService.update(checkGroup, checkitemIds);
@@ -79,6 +95,11 @@ public class CheckGroupController {
         return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
     }
 
+    //删除数据
+    @PostMapping("deleteById")
+    public Result deleteById(Integer id) {
+        checkGroupService.deleteById(id);
 
-
+        return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+    }
 }

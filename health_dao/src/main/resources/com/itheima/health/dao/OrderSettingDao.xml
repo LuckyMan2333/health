@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性：名称空间， 写接口的全限定名-->
+<mapper namespace="com.itheima.health.dao.OrderSettingDao">
+
+    <!--批量导入数据-先查看要导入的数据是否已经存在-->
+    <select id="findByOrderDate" parameterType="date" resultType="OrderSetting">
+        select * from t_orderSetting where orderDate = #{orderDate}
+    </select>
+
+    <!--批量导入数据-修改导入的数据-->
+    <update id="updateNumber" parameterType="OrderSetting">
+        update t_ordersetting set number = #{number} where orderDate = #{orderDate}
+    </update>
+
+    <!--批量导入数据-导入数据-->
+    <insert id="add" parameterType="ordersetting">
+        insert into t_ordersetting (orderDate,number,reservations)
+        values(#{orderDate},#{number},#{reservations})
+    </insert>
+    
+    <!--根据日期去查询预约的数据-->
+    <select id="getOrderSettingByMonth" parameterType="string" resultType="map">
+        select cast(date_format(orderDate,'%d') as signed ) date ,number,reservations
+        from t_ordersetting where orderdate like #{month}
+
+    </select>
+
+
+
+
+</mapper>

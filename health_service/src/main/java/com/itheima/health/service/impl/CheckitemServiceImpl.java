@@ -1,7 +1,6 @@
 package com.itheima.health.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.alibaba.dubbo.container.page.PageHandler;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.StringUtil;
@@ -9,7 +8,7 @@ import com.itheima.health.constant.MessageConstant;
 import com.itheima.health.dao.CheckitemDao;
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
-import com.itheima.health.exception.HealthException;
+import com.itheima.health.exception.MyException;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckitemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,7 @@ public class CheckitemServiceImpl implements CheckitemService {
 
     //删除数据
     @Override
-    public void deleteById(Integer id) throws HealthException {
+    public void deleteById(Integer id) throws MyException {
         //先判断这个检查项是否被检查组使用了
         //调用dao查询检查项的id是否在t_checkgroup_checkitem表中存在记录
 
@@ -65,7 +64,7 @@ public class CheckitemServiceImpl implements CheckitemService {
 
         //如果被检查组使用了,则不能删除
         if (cnt > 0) {
-            throw new HealthException(MessageConstant.DELETE_CHECKITEM_FAIL);
+            throw new MyException(MessageConstant.DELETE_CHECKITEM_FAIL);
         }
 
         //没被检查组使用就可删除

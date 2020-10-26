@@ -2,7 +2,7 @@ package com.itheima.health.service;
 
 import com.itheima.health.entity.PageResult;
 import com.itheima.health.entity.QueryPageBean;
-import com.itheima.health.exception.HealthException;
+import com.itheima.health.exception.MyException;
 import com.itheima.health.pojo.CheckItem;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface CheckitemService {
     //先判断这个检查项是否被检查组使用了
     PageResult<CheckItem> findPage(QueryPageBean queryPageBean);
     //根据id删除数据
-    void deleteById(Integer id) throws HealthException;
+    void deleteById(Integer id) throws MyException;
 
     //调用业务层根据id去查询
     CheckItem findById(Integer id);
