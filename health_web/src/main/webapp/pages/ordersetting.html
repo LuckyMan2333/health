@@ -144,7 +144,6 @@
             methods: {
                 //通过月份来获取预约设置信息
                 getDataByMonth() {
-
                     //获取当前的月份
                     var month = this.currentYear + "-" + (this.currentMonth > 9 ? this.currentMonth : "0" + this.currentMonth);
                     axios.get('/ordersetting/getOrderSettingByMonth.do?month=' + month).then(s => {
@@ -159,7 +158,45 @@
                 },
 				//预约设置
                 handleOrderSet(day){
-                    alert(day)
+
+                    //alert(day);
+                    this.$prompt('请输入最大可预约数量', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        inputPattern: /^[1-9][0-9]{0,2}$/,
+                        inputErrorMessage: '数量不正确, 数量必须为正整数'
+                    }).then(({ value }) => {
+                        // value就是输入的值
+                        //获取当前的年份
+                        var year = day.getFullYear();
+                        //获取当前的月份
+                        var month = day.getMonth() + 1;
+                        //获取当前的日份
+                        var date = day.getDate();
+                        //调用自动补零的方法,传入年月日
+                        var orderDate = this.formatDate(year, month, date);
+                        //获取用户设置的数据
+                        var number = value;
+                        //传送json数据
+                        var json = {orderDate, number};
+                            axios.post('/ordersetting/editNumberByDate.do',json).then(res=>{
+                            this.$message({
+                                message: res.data.message,
+                                type: res.data.flag?"success":"error"
+                            })
+                            // 成功则要刷新日历，加载数据即可
+                            if(res.data.flag){
+                                this.getDataByMonth();
+                            }
+                        })
+                    }).catch(() => {
+
+                    });
+
+
+
+
+
                 },
 				//上传之前进行文件格式校验
                 beforeUpload(file){

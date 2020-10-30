@@ -10,4 +10,6 @@ public interface OrderSettingService {
     void add(List<OrderSetting> orderSettingList) throws MyException;
 
     List<Map<String, Integer>> getOrderSettingByMonth(String month);
+
+    void editNumberByDate(OrderSetting orderSetting) throws MyException;
 }

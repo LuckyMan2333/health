@@ -133,4 +133,26 @@ public class SetmealServiceImpl implements SetmealService {
         //再删除套餐
         setmealDao.delete(id);
     }
+
+    /**
+     *  查询所有套餐
+     * @Param []
+     * @return java.util.List<com.itheima.health.pojo.Setmeal>
+    **/
+    @Override
+    public List<Setmeal> getSetmeal() {
+        return setmealDao.getSetmeal();
+    }
+
+    /**
+     *  套餐的多表映射查询
+     * @Param [id]
+     * @return com.itheima.health.pojo.Setmeal
+    **/
+    @Override
+    public Setmeal findDetailById(Integer id) {
+        return setmealDao.findDetailById(id);
+    }
+
+
 }

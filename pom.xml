@@ -15,6 +15,7 @@
         <module>haelth_interface</module>
         <module>health_service</module>
         <module>health_web</module>
+        <module>health_mobile</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
@@ -39,6 +40,7 @@
     </properties>
     <!-- 依赖管理标签  必须加 -->
     <dependencyManagement>
+
         <dependencies>
             <!-- Spring -->
             <dependency>
@@ -200,7 +202,21 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
+        <!--导入阿里云短信服务-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>

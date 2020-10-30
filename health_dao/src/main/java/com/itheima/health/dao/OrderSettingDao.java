@@ -15,6 +15,9 @@ public interface OrderSettingDao {
 
     //批量导入数据-导入数据
     void add(OrderSetting orderSetting);
-
+    //通过日期查询预约信息
     List<Map<String, Integer>> getOrderSettingByMonth(String month);
+
+    //更新已预约人数
+    int editReservationsByOrderDate(OrderSetting orderSetting);
 }

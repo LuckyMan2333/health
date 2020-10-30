@@ -28,7 +28,7 @@
     <!--根据id查询套餐-->
     <select id="findById" parameterType="int" resultType="setmeal">
     select * From t_setmeal where id=#{id}
-</select>
+    </select>
     
     <!--根据套餐的id去查询关联的检查组-->
     <select id="findCheckgroupIdsBySetmealId" parameterType="int" resultType="int">
@@ -72,6 +72,77 @@
     <delete id="delete" parameterType="int">
         delete from t_setmeal where id=#{id}
     </delete>
+
+    <!--查询所有的套餐-->
+    <select id="getSetmeal" resultType="setmeal">
+        select * from t_setmeal
+    </select>
+
+    <!--套餐的多表映射查询-->
+
+    <!-- 【注意】这里用的是resultMap，不要写错了resultType -->
+    <!--<select id="findDetailById" parameterType="int" resultMap="setmealDetailResultMap">
+    select s.id,s.name,s.age,s.sex,s.remark,s.img,
+        sc.checkgroup_id,g.name checkgroup_name,g.remark checkgroup_remark,
+        cc.checkitem_id,ci.name checkitem_name
+    From t_setmeal s
+    left join t_setmeal_checkgroup sc on s.id=sc.setmeal_id
+    left join t_checkgroup g on sc.checkgroup_id=g.id
+    left join t_checkgroup_checkitem cc on g.id=cc.checkgroup_id
+    left join t_checkitem ci on cc.checkitem_id=ci.id
+    where s.id=#{id}
+</select>
+    <resultMap id="setmealDetailResultMap" type="Setmeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="remark" column="remark"/>
+        <result property="img" column="img"/>
+        &lt;!&ndash; ofType 指定多方的类型，必须的 &ndash;&gt;
+        <collection property="checkGroups" ofType="CheckGroup">
+            <id property="id" column="checkgroup_id"/>
+            <result property="name" column="checkgroup_name"/>
+            <result property="remark" column="checkgroup_remark"/>
+            <collection property="checkItems" ofType="CheckItem">
+                <id property="id" column="checkitem_id"/>
+                <result property="name" column="checkitem_name"/>
+            </collection>
+        </collection>
+    </resultMap>-->
+
+
+    <select id="findDetailById" resultMap="findDetailByIdMap">
+        select s.id,s.name,s.age,s.sex,s.remark,s.img,
+        sc.checkgroup_id,g.name checkgroup_name,g.remark checkgroup_remark,
+        cc.checkitem_id,c.name checkitem_name
+        from
+        t_setmeal s
+        left join t_setmeal_checkgroup sc on s.id = sc.setmeal_id
+        left join t_checkgroup g on sc.checkgroup_id = g.id
+        left join t_checkgroup_checkitem cc on g.id = cc.checkgroup_id
+        left join t_checkitem c on cc.checkitem_id = c.id
+        where
+        s.id = #{id}
+    </select>
+    <resultMap id="findDetailByIdMap" type="setmeal">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="sex" column="sex"/>
+        <result property="age" column="age"/>
+        <result property="remark" column="remark"/>
+        <result property="img" column="img"/>
+        <!--映射其他类型的属性-->
+        <collection property="checkGroups" ofType="CheckGroup">
+            <id property="id" column="checkgroup_id"/>
+            <result property="name" column="checkgroup_name"/>
+            <result property="remark" column="checkgroup_remark"/>
+            <collection property="checkItems" ofType="CheckItem">
+                <id property="id" column="checkitem_id"/>
+                <result property="name" column="checkitem_name"/>
+            </collection>
+        </collection>
+    </resultMap>
 
 
 

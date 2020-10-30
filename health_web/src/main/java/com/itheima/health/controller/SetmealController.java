@@ -155,10 +155,11 @@ public class SetmealController {
     }
 
     /**
-     *  删除套餐
-     * @Param [id]
+     * 删除套餐
+     *
      * @return com.itheima.health.entity.Result
-    **/
+     * @Param [id]
+     **/
     @GetMapping("delete")
     public Result delete(Integer id) {
 
@@ -168,4 +169,7 @@ public class SetmealController {
         return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
 
     }
+
+
+
 }

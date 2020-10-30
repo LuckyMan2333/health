@@ -29,6 +29,13 @@
 
     </select>
 
+    <!--更新已预约人数-->
+    <update id="editReservationsByOrderDate" parameterType="ordersetting">
+        update t_ordersetting set reservations = reservations+1
+         where orderDate = #{orderDate}
+         and number > reservations
+    </update>
+
 
 
 

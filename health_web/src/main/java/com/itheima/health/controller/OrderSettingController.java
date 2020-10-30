@@ -6,10 +6,7 @@ import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.OrderSetting;
 import com.itheima.health.service.OrderSettingService;
 import com.itheima.health.utils.POIUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -76,8 +73,25 @@ public class OrderSettingController {
         //调用服务段查询
         List<Map<String, Integer>> data = orderSettingService.getOrderSettingByMonth(month);
 
-        return new Result(true, MessageConstant.GET_ORDERSETTING_SUCCESS,data);
+        return new Result(true, MessageConstant.GET_ORDERSETTING_SUCCESS, data);
 
 
     }
+
+
+    /**
+     *  修改预约的最大数量
+     * @Param [orderSetting]
+     * @return com.itheima.health.entity.Result
+    **/
+    @PostMapping("editNumberByDate")
+    public Result editNumberByDate(@RequestBody OrderSetting orderSetting) {
+        //调用业务去修改
+        orderSettingService.editNumberByDate(orderSetting);
+
+        return new Result(true, MessageConstant.ORDERSETTING_SUCCESS);
+
+    }
 }
+
+
