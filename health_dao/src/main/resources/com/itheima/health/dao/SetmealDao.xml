@@ -144,6 +144,14 @@
         </collection>
     </resultMap>
 
+    <!--套餐预约占比饼图 获取预约套餐的比例-->
+    <select id="findSetmaelCount" resultType="map">
+        select s.name,o.value from
+        t_setmeal s,
+        (select setmeal_id,count(setmeal_id) value from t_order group by setmeal_id) o
+        where s.id = o.setmeal_id
+    </select>
+
 
 
 

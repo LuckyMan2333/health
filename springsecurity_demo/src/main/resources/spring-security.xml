@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!--
+【重要】【重要】【重要】
+这里面的所有路径必须以/开头，否则启动报错
+    -->
+
+    <!--开启注解包扫描-->
+    <context:component-scan base-package="com.itheima"/>
+
+    <!--开启注解方式权限控制-->
+    <security:global-method-security pre-post-annotations="enabled"/>
+
+    <!--设置静态资源不拦截-->
+    <security:http security="none" pattern="/login.html"/> <!--登陆的页面不需要拦截-->
+    <security:http security="none" pattern="/fail.html"/> <!--登陆失败的页面不需要拦截-->
+
+
+
+    <!--配置拦截设置-->
+    <!--
+    auto-config="true" 自动配置 自动生成登陆页面进行登陆处理
+    use-expressions:
+     是否使用spel表达式 true: access的值可以填表达式(hasRole, hasAuthority, hasAny....)
+
+     false: ROEL_角色名(必须是ROLE_打，否则启动报错), 或者其他写死的常量
+
+    -->
+    <security:http auto-config="true" use-expressions="true">
+        <!--配置拦截路径
+        <security:intercept-url 表示要拦截的路径 可以配置多个
+        pattern 表示要拦截的路径 /** 代表拦截所有路径
+        access  角色控制 要想访问指定的页面,就要先登陆并且要有 access指定的角色才能访问
+
+        如果use-expressions="false"的话 就要自己写死几个常量
+        如果use-expressions="true"的话就可以使用表达式
+        -->
+        <!--<security:intercept-url pattern="/**" access="ROLE_ADMIN"/>-->
+
+       <!-- &lt;!&ndash;使用多种验证规则&ndash;&gt;
+        &lt;!&ndash;只要验证通过就能访问&ndash;&gt;
+        <security:intercept-url pattern="/index.html" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/a.html" access="isAuthenticated()"/>
+
+        &lt;!&ndash;只要拥有add权限就能访问吧b.html页面&ndash;&gt;
+        <security:intercept-url pattern="/b.html" access="hasAuthority('add')"/>
+
+        &lt;!&ndash;拥有ROLE_ADMIN角色就可以访问c.html页面&ndash;&gt;
+        &lt;!&ndash;hasRole()会自动添加前缀&ndash;&gt;
+        <security:intercept-url pattern="/c.html" access="hasRole('ADMIN')"/>
+
+        &lt;!&ndash;拥有 ROLE_ABC角色就可以访问d.html页面&ndash;&gt;
+        <security:intercept-url pattern="/d.html" access="hasRole('ABC')"/>-->
+
+        <!--指定登陆页面
+         login-processing-url: 处理登陆请求 表单提交的路径要和这个属性一样
+         login-page: 指定登陆的页面,如果用户没有登陆就来到指定的页面
+          default-target-url : 指定登陆成功后跳转的页面
+          authentication-failure-url: 指定登陆失败后跳转的页面
+          username-parameter: 登陆提交用户名 时使用的参数名
+          password-parameter: 登陆提交时密码 时使用的参数名
+          always-use-default-target : 不管从那个页面到登陆页面成功后都会跳转到  default-target-url指定的页面
+        -->
+        <security:form-login
+        login-processing-url="/login"
+        login-page="/login.html"
+        default-target-url="/index.html"
+        authentication-failure-url="/fail.html"
+        username-parameter="abc"
+        password-parameter="bbb"
+        always-use-default-target="true"
+        />
+        <!--关闭跨域访问设置-->
+        <security:csrf disabled="true"/>
+
+    </security:http>
+
+
+    <!--配置认证管理器-->
+    <security:authentication-manager>
+
+        <!--提供用户登陆的 用户名 密码 权限集合-->
+        <!--引入数据库查询用户信息-->
+        <security:authentication-provider user-service-ref="userService">
+            <!--使用指定的密码加密策略-->
+            <security:password-encoder ref="encoder"></security:password-encoder>
+
+        </security:authentication-provider>
+
+    </security:authentication-manager>
+
+    <!--注册使用数据库 ref 引用的bean-->
+    <bean id="userService" class="com.itheima.service.UserService"/>
+
+    <!--注册指定的加密器对象-->
+    <bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+
+</beans>

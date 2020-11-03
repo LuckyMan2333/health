@@ -77,6 +77,7 @@
     </update>
 
     <!--根据日期统计会员数，统计指定日期之前的会员数-->
+    <!--要进行转义-->
     <select id="findMemberCountBeforeDate" parameterType="string" resultType="int">
         select count(id) from t_member where regTime &lt;= #{value}
     </select>

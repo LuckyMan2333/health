@@ -16,10 +16,12 @@
         <module>health_service</module>
         <module>health_web</module>
         <module>health_mobile</module>
+        <module>springsecurity_demo</module>
     </modules>
 
     <!-- 集中定义依赖版本号 -->
     <properties>
+        <jasperreports>6.8.0</jasperreports>
         <junit.version>4.12</junit.version>
         <spring.version>5.0.5.RELEASE</spring.version>
         <pagehelper.version>4.1.4</pagehelper.version>
@@ -42,6 +44,14 @@
     <dependencyManagement>
 
         <dependencies>
+
+            <!--PDF依赖-->
+            <dependency>
+                <groupId>net.sf.jasperreports</groupId>
+                <artifactId>jasperreports</artifactId>
+                <version>${jasperreports}</version>
+            </dependency>
+
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>

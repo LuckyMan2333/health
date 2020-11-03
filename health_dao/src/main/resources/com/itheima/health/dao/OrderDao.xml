@@ -94,4 +94,15 @@ where o.setmeal_id = s.id
 and o.member_id = m.id
 and o.id = 19
     </select>
+
+    <!--查绚本周预约数-->
+   <!-- <select id="findorderCountBetweenDate">
+        select count(id) from t_order where orderDate >= #{thisWeekMonday} and orderDate &lt;= #{sunday}
+    </select>-->
+    <select id="findorderCountBetweenDate" parameterType="string" resultType="int">
+    select count(id) from t_order where orderDate between #{thisWeekMonday} and #{sunday}
+</select>
+
+
+
 </mapper>

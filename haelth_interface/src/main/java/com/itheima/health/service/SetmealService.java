@@ -6,6 +6,7 @@ import com.itheima.health.exception.MyException;
 import com.itheima.health.pojo.Setmeal;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SetmealService {
     void add(Setmeal setmeal, Integer[] checkgroupIds);
@@ -23,4 +24,7 @@ public interface SetmealService {
     List<Setmeal> getSetmeal();
 
     Setmeal findDetailById(Integer id);
+
+    List<Map<String, Object>> findSetmealCount();
+
 }

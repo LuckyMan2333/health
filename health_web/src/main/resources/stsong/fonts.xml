@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+    <fontFamily name="黑体">
+        <normal>stsong/simhei.ttf</normal>
+        <bold>stsong/simhei.ttf</bold>
+        <italic>stsong/simhei.ttf</italic>
+        <boldItalic>stsong/simhei.ttf</boldItalic>
+        <pdfEncoding>Identity-H</pdfEncoding>
+        <pdfEmbedded>true</pdfEmbedded>
+        <exportFonts>
+            <export key="net.sf.jasperreports.html">'黑体',Arial,Helvetica,sans-serif</export>
+            <export key="net.sf.jasperreports.xhtml">'黑体',Arial,Helvetica,sans-serif</export>
+        </exportFonts>
+    </fontFamily>
+</fontFamilies>

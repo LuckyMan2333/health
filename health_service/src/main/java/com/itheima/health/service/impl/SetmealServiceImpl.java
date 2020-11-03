@@ -14,6 +14,7 @@ import com.itheima.health.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Map;
 
 @Service(interfaceClass = SetmealService.class)
 public class SetmealServiceImpl implements SetmealService {
@@ -152,6 +153,16 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public Setmeal findDetailById(Integer id) {
         return setmealDao.findDetailById(id);
+    }
+
+    /**
+     *  套餐预约占比饼图 获取预约套餐的比例
+     * @Param []
+     * @return java.util.List<java.util.Map<java.lang.String,java.lang.Object>>
+    **/
+    @Override
+    public List<Map<String, Object>> findSetmealCount() {
+        return setmealDao.findSetmaelCount();
     }
 
 

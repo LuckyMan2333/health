@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace属性：名称空间， 写接口的全限定名-->
+<mapper namespace="com.itheima.health.dao.UserDao">
+
+<select id="findByUserName" resultMap="userRolePermissionMap">
+    select u.id,u.username,u.password ,
+    ur.role_id,r.keyword role_keyword,r.name role_name,
+    rp.permission_id,p.keyword permission_keyword,p.name permission_name
+    from
+    t_user u,
+    t_user_role ur,
+    t_role r,
+    t_role_permission rp,
+    t_permission p
+    where u.id = ur.user_id
+    and ur.role_id = r.id
+    and r.id = rp.role_id
+    and rp.permission_id = p.id
+    and u.username = #{username}
+</select>
+    <!--多表映射查绚-->
+    <resultMap id="userRolePermissionMap" type="user">
+        <!--设置用户自身属性-->
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <!--设置其他映射类型属性 (用户下的角色属性)-->
+        <collection property="roles" ofType="Role">
+            <id property="id" column="role_id"/>
+            <result property="name" column="role_name"/>
+            <result property="keyword" column="role_keyword"/>
+            <!--设置其他映射类型属性 (角色下的权限属性)-->
+            <collection property="permissions" ofType="Permission">
+                <id property="id" column="permission_id"/>
+                <result property="name" column="permission_name"/>
+                <result property="keyword" column="permission_keyword"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+
+
+</mapper>
